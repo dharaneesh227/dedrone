@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Sign in Page</title>
+   <link href="style.css" rel="stylesheet">
+   <script src="script.js"></script>
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form action="#">
+				<h1>Registration</h1>
+				<input type="text" placeholder="Name" id="Name"/>
+				<input type="text" placeholder="Organisation Name" id="org_name"/>
+				<input type="text" placeholder="GST Number" id="gst"/>
+				<input type="text" placeholder="Email" id="Email"/>
+				<input type="text" placeholder="Password" id="Password" />
+				<button style="margin-top: 12px;" onclick="register()">Sign Up</button>			
+			</form>
+		</div>
+		<div class="form-container sign-in-container">
+			<form action="#">
+				<h1>Login</h1>
+				<input type="text" placeholder="Email" id="username" />
+				<input type="text" placeholder="Password" id="pwd" />
+				<button style="margin-top: 20px;" onclick="validate()">Login</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1>Welcome Back!</h1>
+					<p>Already have an account? Then try logging in and get through</p>
+					<button class="ghost" id="signIn" style="color:black;">Sign In</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>Haven't Registered Yet</h1>
+					<p>Go to signup page and try registering first</p>
+					<button class="ghost" id="signUp" style="color:black;">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	window.onload=function(){
+	const signUpButton = document.getElementById('signUp');
+	const signInButton = document.getElementById('signIn');
+	const container = document.getElementById('container');
+
+	signUpButton.addEventListener('click', () => {
+		container.classList.add("right-panel-active");
+	});
+
+	signInButton.addEventListener('click', () => {
+		container.classList.remove("right-panel-active");
+	});
+	}
+</script>
+</html>
+
+
+
+
+
+
