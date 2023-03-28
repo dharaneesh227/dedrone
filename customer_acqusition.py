@@ -31,7 +31,7 @@ from sklearn.decomposition import PCA
 from IPython.display import display, HTML
 
 # read the datafile
-df_initial = pd.read_csv('data_points (1).csv',encoding="ISO-8859-1",
+df_initial = pd.read_csv('/content/drive/MyDrive/proj/data_points (1).csv',encoding="ISO-8859-1",
                          dtype={'CustomerID': str,'InvoiceID': str})
 print('Dataframe dimensions:', df_initial.shape)
 df_initial['InvoiceDate'] = pd.to_datetime(df_initial['InvoiceDate'])
@@ -54,43 +54,48 @@ tab_info=tab_info.append(pd.DataFrame(df_initial.isnull().sum()/df_initial.shape
                          rename(index={0:'null values (%)'}))
 display(tab_info)
 
-print('Duplicate data entries: {}'.format(df_initial.duplicated().sum()))
+#print('Duplicate data entries: {}'.format(df_initial.duplicated().sum()))
 df_initial.drop_duplicates(inplace = True)
 
-temp = df_initial[['CustomerID', 'InvoiceNo', 'Country']].groupby(
-    ['CustomerID', 'InvoiceNo', 'Country']).count()
-temp = temp.reset_index(drop = False)
-countries = temp['Country'].value_counts()
-print('No. of cities in dataframe: {}'.format(len(countries)))
+#To print the number of cities
+def no_of_cities():
+  temp = df_initial[['CustomerID', 'InvoiceNo', 'Country']].groupby(
+      ['CustomerID', 'InvoiceNo', 'Country']).count()
+  temp = temp.reset_index(drop = False)
+  countries = temp['Country'].value_counts()
+  a = 'No. of cities in dataframe: {}'.format(len(countries))
+  return a
 
-temp_no_of_order_per_count = df_initial[['CustomerID','Country']].groupby(['Country']).count()
-temp_no_of_order_per_count = temp_no_of_order_per_count.reset_index(drop = False)
+#To print city and number of order
+def country_and_order():
+  temp_no_of_order_per_count = df_initial[['CustomerID','Country']].groupby(['Country']).count()
+  temp_no_of_order_per_count = temp_no_of_order_per_count.reset_index(drop = False)
 
-print('-' * 10 + " Contry-wise order calculation "+ '-' * 10)
-print
-print (temp_no_of_order_per_count.sort_values(
-    by='CustomerID', ascending=False).rename(index=str,
-                                        columns={"CustomerID": "Country wise number of order"}))
+  #print('-' * 10 + " Contry-wise order calculation "+ '-' * 10)
+  x = temp_no_of_order_per_count.sort_values(
+      by='CustomerID', ascending=False).rename(index=str,
+                                          columns={"CustomerID": "Country wise number of order"})
+      
+  return x
 
-pd.DataFrame([{'products': len(df_initial['StockCode'].value_counts()),    
-               'transactions': len(df_initial['InvoiceNo'].value_counts()),
-               'customers': len(df_initial['CustomerID'].value_counts()),  
-              }], columns = ['products', 'transactions', 'customers'], 
-              index = ['quantity'])
+
 
 temp = df_initial.groupby(by=['CustomerID', 'InvoiceNo'], as_index=False)['InvoiceDate'].count()
 nb_products_per_basket = temp.rename(columns = {'InvoiceDate':'Number of products'})
 nb_products_per_basket[:10].sort_values('CustomerID')
 
-nb_products_per_basket['order_cancelled'] = nb_products_per_basket['InvoiceNo'].apply(
-    lambda x:int('C' in x))
-display(nb_products_per_basket[:5])
+#number of order cancelled by the customers
+def cancelled_order():
+  nb_products_per_basket['order_cancelled'] = nb_products_per_basket['InvoiceNo'].apply(
+      lambda x:int('C' in x))
+  display(nb_products_per_basket[:5])
 
 
-n1 = nb_products_per_basket['order_cancelled'].sum()
-n2 = nb_products_per_basket.shape[0]
-percentage = (n1/n2)*100
-print('Number of orders cancelled: {}/{} ({:.2f}%) '.format(n1, n2, percentage))
+  n1 = nb_products_per_basket['order_cancelled'].sum()
+  n2 = nb_products_per_basket.shape[0]
+  percentage = (n1/n2)*100
+  d = 'Number of orders cancelled: {}/{} ({:.2f}%) '.format(n1, n2, percentage)
+  return d
 
 display(df_initial.sort_values('CustomerID')[:5])
 
@@ -99,8 +104,6 @@ df_check = df_initial[df_initial['Quantity'] < 0][['CustomerID','Quantity',
 for index, col in  df_check.iterrows():
     if df_initial[(df_initial['CustomerID'] == col[0]) & (df_initial['Quantity'] == -col[1]) 
                 & (df_initial['Description'] == col[2])].shape[0] == 0: 
-        print(df_check.loc[index])
-        print(15*'-'+'>'+' HYPOTHESIS NOT FULFILLED')
         break
 
 df_check = df_initial[(df_initial['Quantity'] < 0) & (df_initial['Description'] != 'Discount')][
@@ -110,8 +113,6 @@ df_check = df_initial[(df_initial['Quantity'] < 0) & (df_initial['Description'] 
 for index, col in  df_check.iterrows():
     if df_initial[(df_initial['CustomerID'] == col[0]) & (df_initial['Quantity'] == -col[1]) 
                 & (df_initial['Description'] == col[2])].shape[0] == 0: 
-        print(index, df_check.loc[index])
-        print(15*'-'+'>'+' HYPOTHESIS NOT FULFILLED')
         break
 
 df_cleaned = df_initial.copy(deep = True)
@@ -145,22 +146,22 @@ for index, col in  df_initial.iterrows():
             entry_to_remove.append(index) 
             break
 
-print("entry_to_remove: {}".format(len(entry_to_remove)))
-print("doubtfull_entry: {}".format(len(doubtfull_entry)))
+#print("entry_to_remove: {}".format(len(entry_to_remove)))
+#print("doubtfull_entry: {}".format(len(doubtfull_entry)))
 
 df_cleaned.drop(entry_to_remove, axis = 0, inplace = True)
 df_cleaned.drop(doubtfull_entry, axis = 0, inplace = True)
 remaining_entries = df_cleaned[(df_cleaned['Quantity'] < 0) & (df_cleaned['StockCode'] != 'D')]
-print("nb of entries to delete: {}".format(remaining_entries.shape[0]))
-remaining_entries[:5]
+#print("nb of entries to delete: {}".format(remaining_entries.shape[0]))
+#remaining_entries[:5]
 
-df_cleaned[(df_cleaned['CustomerID'] == 14048) & (df_cleaned['StockCode'] == '22464')]
+#df_cleaned[(df_cleaned['CustomerID'] == 14048) & (df_cleaned['StockCode'] == '22464')]
 
 list_special_codes = df_cleaned[df_cleaned['StockCode'].str.contains('^[a-zA-Z]+', regex=True)]['StockCode'].unique()
 list_special_codes
 
-for code in list_special_codes:
-    print("{:<15} -> {:<30}".format(code, df_cleaned[df_cleaned['StockCode'] == code]['Description'].unique()[0]))
+'''for code in list_special_codes:
+    print("{:<15} -> {:<30}".format(code, df_cleaned[df_cleaned['StockCode'] == code]['Description'].unique()[0]))'''
 
 df_cleaned['TotalPrice'] = df_cleaned['UnitPrice'] * (df_cleaned['Quantity'] - df_cleaned['QuantityCanceled'])
 df_cleaned.sort_values('CustomerID')[:5]
@@ -179,27 +180,27 @@ basket_price.loc[:, 'InvoiceDate'] = pd.to_datetime(temp['InvoiceDate_int'])
 basket_price = basket_price[basket_price['Basket Price'] > 0]
 basket_price.sort_values('CustomerID')[:6]
 
-# Purchase count
-price_range = [0, 50, 100, 200, 500, 1000, 5000, 50000]
-count_price = []
-for i, price in enumerate(price_range):
-    if i == 0: continue
-    val = basket_price[(basket_price['Basket Price'] < price) &
-                       (basket_price['Basket Price'] > price_range[i-1])]['Basket Price'].count()
-    count_price.append(val)
-
-# Representation of the number of purchases / amount       
-plt.rc('font', weight='bold')
-f, ax = plt.subplots(figsize=(11, 6))
-colors = ['yellowgreen', 'gold', 'wheat', 'c', 'violet', 'royalblue','firebrick']
-labels = [ '{}< value <{}'.format(price_range[i-1], s) for i,s in enumerate(price_range) if i != 0]
-sizes  = count_price
-explode = [0.0 if sizes[i] < 100 else 0.0 for i in range(len(sizes))]
-ax.pie(sizes, explode = explode, labels=labels, colors = colors,
-       autopct = lambda x:'{:1.0f}%'.format(x) if x > 1 else '',
-       shadow = False, startangle=0)
-ax.axis('equal')
-f.text(0.5, 1.01, "Distribution of order amounts", ha='center', fontsize = 18);
+# Distribution of order amounts
+def image_func_amnts():
+  price_range = [0, 50, 100, 200, 500, 1000, 5000, 50000]
+  count_price = []
+  for i, price in enumerate(price_range):
+      if i == 0: continue
+      val = basket_price[(basket_price['Basket Price'] < price) &
+                        (basket_price['Basket Price'] > price_range[i-1])]['Basket Price'].count()
+      count_price.append(val)
+    
+  plt.rc('font', weight='bold')
+  f, ax = plt.subplots(figsize=(11, 6))
+  colors = ['yellowgreen', 'gold', 'wheat', 'c', 'violet', 'royalblue','firebrick']
+  labels = [ '{}< value <{}'.format(price_range[i-1], s) for i,s in enumerate(price_range) if i != 0]
+  sizes  = count_price
+  explode = [0.0 if sizes[i] < 100 else 0.0 for i in range(len(sizes))]
+  ax.pie(sizes, explode = explode, labels=labels, colors = colors,
+        autopct = lambda x:'{:1.0f}%'.format(x) if x > 1 else '',
+        shadow = False, startangle=0)
+  ax.axis('equal')
+  f.text(0.5, 1.01, "Distribution of order amounts", ha='center', fontsize = 18);
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
@@ -244,10 +245,9 @@ df_produits = pd.DataFrame(df_initial['Description'].unique()).rename(columns = 
 
 keywords, keywords_roots, keywords_select, count_keywords = keywords_inventory(df_produits)
 
-import nltk
-nltk.download('punkt')
 
-nltk.download('averaged_perceptron_tagger')
+
+
 
 list_products = []
 for k,v in count_keywords.items():
@@ -560,3 +560,239 @@ transactions_per_user[:5]
 n1 = transactions_per_user[transactions_per_user['count'] == 1].shape[0]
 n2 = transactions_per_user.shape[0]
 print("No. customers with single purchase: {:<2}/{:<5} ({:<2.2f}%)".format(n1,n2,n1/n2*100))
+
+import numpy as numpy
+list_cols = ['count','min','max','mean']
+#_____________________________________________________________
+selected_customers = transactions_per_user.copy(deep = True)
+matrix = selected_customers[list_cols].to_numpy()
+
+scaler = StandardScaler()
+scaler.fit(matrix)
+scaled_matrix = scaler.transform(matrix)
+
+pca = PCA()
+pca.fit(scaled_matrix)
+pca_samples = pca.transform(scaled_matrix)
+
+fig, ax = plt.subplots(figsize=(14, 5))
+sns.set(font_scale=1)
+plt.step(range(matrix.shape[1]), pca.explained_variance_ratio_.cumsum(), where='mid',
+         label='cumulative explained variance')
+sns.barplot(x = np.arange(1,matrix.shape[1]+1), y = pca.explained_variance_ratio_, alpha=0.5, color = 'g',
+            label='individual explained variance')
+plt.xlim(0, 10)
+
+ax.set_xticklabels([s if int(s.get_text())%2 == 0 else '' for s in ax.get_xticklabels()])
+
+plt.ylabel('Explained variance', fontsize = 14)
+plt.xlabel('Principal components', fontsize = 14)
+plt.legend(loc='best', fontsize = 13);
+
+n_clusters = 11
+kmeans = KMeans(init='k-means++', n_clusters = n_clusters, n_init=100)
+kmeans.fit(scaled_matrix)
+clusters_clients = kmeans.predict(scaled_matrix)
+silhouette_avg = silhouette_score(scaled_matrix, clusters_clients)
+print('silhouette score: {:<.3f}'.format(silhouette_avg))
+
+pd.DataFrame(pd.Series(clusters_clients).value_counts(), columns = ['number of clients']).T
+
+pca = PCA(n_components=3)
+matrix_3D = pca.fit_transform(scaled_matrix)
+mat = pd.DataFrame(matrix_3D)
+mat['cluster'] = pd.Series(clusters_clients)
+
+import matplotlib.patches as mpatches
+
+sns.set_style("white")
+sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
+
+LABEL_COLOR_MAP = {0:'r', 1:'tan', 2:'b', 3:'k', 4:'c', 5:'g', 6:'deeppink', 7:'skyblue', 8:'darkcyan',
+                   9:'orange',
+                   10:'yellow', 11:'tomato', 12:'seagreen'}
+label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
+
+fig = plt.figure(figsize = (12,10))
+increment = 0
+for ix in range(6):
+    for iy in range(ix+1, 6):   
+        increment += 1
+        ax = fig.add_subplot(4,3,increment)
+        ax.scatter(mat[ix],mat[iy], c= label_color, alpha=0.5) 
+        plt.ylabel('PCA {}'.format(iy+1), fontsize = 12)
+        plt.xlabel('PCA {}'.format(ix+1), fontsize = 12)
+        ax.yaxis.grid(color='lightgray', linestyle=':')
+        ax.xaxis.grid(color='lightgray', linestyle=':')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        
+        if increment == 12: break
+    if increment == 12: break
+        
+#_______________________________________________
+# I set the legend: abreviation -> airline name
+comp_handler = []
+for i in range(n_clusters):
+    comp_handler.append(mpatches.Patch(color = LABEL_COLOR_MAP[i], label = i))
+
+plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.9), 
+           title='Cluster', 
+           shadow = True, frameon = True, framealpha = 1,
+           fontsize = 13, bbox_transform = plt.gcf().transFigure) #facecolor = 'lightgrey',
+
+plt.tight_layout()
+
+sample_silhouette_values = silhouette_samples(scaled_matrix, clusters_clients)
+#____________________________________
+# define individual silhouette scores 
+sample_silhouette_values = silhouette_samples(scaled_matrix, clusters_clients)
+#__________________
+# and do the graph
+graph_component_silhouette(n_clusters, [-0.15, 0.55], len(scaled_matrix), sample_silhouette_values, 
+                           clusters_clients)
+
+selected_customers.loc[:, 'cluster'] = clusters_clients
+
+merged_df = pd.DataFrame()
+for i in range(n_clusters):
+    test = pd.DataFrame(selected_customers[selected_customers['cluster'] == i].mean())
+    test = test.T.set_index('cluster', drop = True)
+    test['size'] = selected_customers[selected_customers['cluster'] == i].shape[0]
+    merged_df = pd.concat([merged_df, test])
+#_____________________________________________________
+merged_df.drop('CustomerID', axis = 1, inplace = True)
+print('number of customers:', merged_df['size'].sum())
+
+merged_df = merged_df.sort_values('sum')
+
+list_cols = ['count','min','max','mean','categ_0','categ_1','categ_2','categ_3','categ_4']
+#_____________________________________________________________
+selected_customers = transactions_per_user.copy(deep = True)
+matrix = selected_customers[list_cols].to_numpy()
+
+selected_customers.loc[:, 'cluster'] = clusters_clients
+
+merged_df = pd.DataFrame()
+for i in range(n_clusters):
+    test = pd.DataFrame(selected_customers[selected_customers['cluster'] == i].mean())
+    test = test.T.set_index('cluster', drop = True)
+    test['size'] = selected_customers[selected_customers['cluster'] == i].shape[0]
+    merged_df = pd.concat([merged_df, test])
+#_____________________________________________________
+merged_df.drop('CustomerID', axis = 1, inplace = True)
+print('number of customers:', merged_df['size'].sum())
+
+merged_df = merged_df.sort_values('sum')
+
+def _scale_data(data, ranges):
+    (x1, x2) = ranges[0]
+    d = data[0]
+    return [(d - y1) / (y2 - y1) * (x2 - x1) + x1 for d, (y1, y2) in zip(data, ranges)]
+
+class RadarChart():
+    def __init__(self, fig, location, sizes, variables, ranges, n_ordinate_levels = 6):
+
+        angles = np.arange(0, 360, 360./len(variables))
+
+        ix, iy = location[:] ; size_x, size_y = sizes[:]
+        
+        axes = [fig.add_axes([ix, iy, size_x, size_y], polar = True, 
+        label = "axes{}".format(i)) for i in range(len(variables))]
+
+        _, text = axes[0].set_thetagrids(angles, labels = variables)
+        
+        for txt, angle in zip(text, angles):
+            if angle > -1 and angle < 181:
+                txt.set_rotation(angle - 90)
+            else:
+                txt.set_rotation(angle - 270)
+        
+        for ax in axes[1:]:
+            ax.patch.set_visible(False)
+            ax.xaxis.set_visible(False)
+            ax.grid("off")
+        
+        for i, ax in enumerate(axes):
+            grid = np.linspace(*ranges[i],num = n_ordinate_levels)
+            grid_label = [""]+["{:.0f}".format(x) for x in grid[1:-1]]
+            ax.set_rgrids(grid, labels = grid_label, angle = angles[i])
+            ax.set_ylim(*ranges[i])
+        
+        self.angle = np.deg2rad(np.r_[angles, angles[0]])
+        self.ranges = ranges
+        self.ax = axes[0]
+                
+    def plot(self, data, *args, **kw):
+        sdata = _scale_data(data, self.ranges)
+        self.ax.plot(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
+
+    def fill(self, data, *args, **kw):
+        sdata = _scale_data(data, self.ranges)
+        self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
+
+    def legend(self, *args, **kw):
+        self.ax.legend(*args, **kw)
+        
+    def title(self, title, *args, **kw):
+        self.ax.text(0.9, 1, title, transform = self.ax.transAxes, *args, **kw)
+
+fig = plt.figure(figsize=(50,50))
+
+attributes = ['count', 'mean', 'sum']
+ranges = [[0.01, 10], [0.01, 1500], [0.01, 10000], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75]]
+index  = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+n_groups = n_clusters ; i_cols = 3
+i_rows = n_groups//i_cols
+size_x, size_y = (1/i_cols), (1/i_rows)
+
+for ind in range(n_clusters):
+    ix = ind%3 ; iy = i_rows - ind//3
+    pos_x = ix*(size_x + 0.05) ; pos_y = iy*(size_y + 0.05)            
+    location = [pos_x, pos_y]  ; sizes = [size_x, size_y] 
+    #______________________________________________________
+    data = np.array(merged_df.loc[index[ind], attributes])  
+    #print (data)
+    radar = RadarChart(fig, location, sizes, attributes, ranges)
+    radar.plot(data, color = 'b', linewidth=5.0)
+    radar.fill(data, alpha = 0.2, color = 'b')
+    radar.title(title = 'cluster n{}'.format(index[ind]), color = 'r')
+    ind += 1
+
+class Class_Fit(object):
+    def __init__(self, clf, params=None):
+        if params:            
+            self.clf = clf(**params)
+        else:
+            self.clf = clf()
+
+    def train(self, x_train, y_train):
+        self.clf.fit(x_train, y_train)
+
+    def predict(self, x):
+        return self.clf.predict(x)
+    
+    def grid_search(self, parameters, Kfold):
+        self.grid = GridSearchCV(estimator = self.clf, param_grid = parameters, cv = Kfold)
+        
+    def grid_fit(self, X, Y):
+        self.grid.fit(X, Y)
+        
+    def grid_predict(self, X, Y):
+        self.predictions = self.grid.predict(X)
+        print("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y, self.predictions)))
+
+selected_customers.head()
+
+columns = ['mean', 'categ_0', 'categ_1', 'categ_2', 'categ_3', 'categ_4' ]
+X = selected_customers[columns]
+Y = selected_customers['cluster']
+
+X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, train_size = 0.8)
+
+svc = Class_Fit(clf = svm.LinearSVC)
+svc.grid_search(parameters = [{'C':np.logspace(-2,2,10)}], Kfold = 5)
+
+svc.grid_fit(X = X_train, Y = Y_train)
+
