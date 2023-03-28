@@ -1,0 +1,89 @@
+.bg-body-tertiary{
+    background-color: #674188 !important;
+}
+
+.btn {
+	border: 1px solid #ffffff;
+	background-color: #ffffff;
+	color: #674188;
+	font-size: 12px;
+	padding: 10px 10px;
+    margin-top: -5px;
+    font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.btn:hover{
+    background-color: #C3ACD0;
+    color: white;
+}
+
+.btn2 {
+	border-radius: 30px;
+	border: 1px solid #674188;
+	background-color: #674188;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+    margin-top: -150px;
+    margin-left: 330px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.btn2:hover {
+	transform: scale(0.95);
+    background-color: #C3ACD0;
+    outline: none;
+}
+
+.des{
+    height: 100px;
+    width: 400px;
+    justify-content: end;
+    background-color: #FFFBF5;
+    padding: 15px 15px;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: typing 4.5s steps(40, end) infinite, blink-caret 2s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 20% }
+}
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+}
+
+.circles{
+    animation: growAndFade 3s infinite ease-out;
+    background-color: grey;
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+    opacity: 0;
+    margin-left: 100px;
+    margin-top: -190px;
+    position: absolute;
+}
+
+@keyframes growAndFade {
+    0% {
+      opacity: .50;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
