@@ -8,21 +8,21 @@
 <body>
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
-			<form action="#">
+			<form action="/register" enctype="multipart/form-data" method="post">
 				<h1>Registration</h1>
 				<input type="text" placeholder="Name" id="Name"/>
-				<input type="text" placeholder="Organisation Name" id="org_name"/>
-				<input type="text" placeholder="GST Number" id="gst"/>
-				<input type="text" placeholder="Email" id="Email"/>
-				<input type="text" placeholder="Password" id="Password" />
+				<input type="text" placeholder="Org" id="org_name"/>
+				<input type="text" placeholder="GSTno" id="gst"/>
+				<input type="text" placeholder="email" id="Email"/>
+				<input type="text" placeholder="password" id="Password" />
 				<button style="margin-top: 12px;">Sign Up</button>			
 			</form>
 		</div>
 		<div class="form-container sign-in-container">
 			<form action="#">
 				<h1>Login</h1>
-				<input type="text" placeholder="Email" id="username" />
-				<input type="text" placeholder="Password" id="pwd" />
+				<input type="text" placeholder="email" id="username" />
+				<input type="text" placeholder="password" id="pwd" />
 				<button style="margin-top: 20px;">Login</button>
 			</form>
 		</div>
