@@ -10,10 +10,10 @@ app=Flask(__name__)
 
 client = MongoClient('127.0.0.1', 27017)
 
-db = client.flask_db
-users = db.users
-returns = users.find()
-print(returns)
+# db = client['dedrone']
+# users = db.users
+# returns = users.find()
+# print(returns)
 
 @app.route("/")
 def home():

@@ -74,9 +74,7 @@ def country_and_order():
 
   #print('-' * 10 + " Contry-wise order calculation "+ '-' * 10)
   x = temp_no_of_order_per_count.sort_values(
-      by='CustomerID', ascending=False).rename(index=str,
-                                          columns={"CustomerID": "Country wise number of order"})
-      
+      by='CustomerID', ascending=False).rename(index=str,columns={"CustomerID": "Country wise number of order"})
   return x
 
 
