@@ -10,14 +10,6 @@
 # In[1]:
 
 
-import sys
-print(sys.executable)
-
-
-# In[2]:
-
-
-get_ipython().system('pip install plotly')
 
 
 # In[3]:
@@ -66,7 +58,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Load and read the dataset
 df_init = pd.read_csv('data_points (1).csv',encoding="ISO-8859-1", dtype={'CustomerID': str,'InvoiceID': str})
-print('Dataframe dimensions:', df_init.shape)
+#print('Dataframe dimensions:', df_init.shape)
 
 
 # In[6]:
@@ -268,7 +260,7 @@ temp_cou = temp_cou.reset_index(drop = False)
 # Take count of the number of unique countries
 def no_of_cities():
     countries = temp_cou['Country'].value_counts()
-    a = 'No. of countries in the dataframe: {}'.format(len(countries))
+    a = str(len(countries))
     return a
 
 
@@ -337,7 +329,7 @@ def order_cancel():
     n2 = nb_products_per_basket.shape[0]
 
     # Divide by 100 to get the percentage value
-    return('Number of orders canceled: {}/{} ({:.2f}%) '.format(n1, n2, n1/n2*100))
+    return(str(n1, n2, n1/n2*100))
 
 
 # Note that the number of cancellations is quite large (`∼ 16%` of the total number of `transactions`). Now, let's look at the first lines of the dataframe:
@@ -672,7 +664,7 @@ def keywords_inventory(dataframe, colonne = 'Description'):
             keywords_select[s] = list(keywords_roots[s])[0]
             
             
-    print("No. of keywords in variable '{}': {}".format(colonne,len(category_keys)))
+    #print("No. of keywords in variable '{}': {}".format(colonne,len(category_keys)))
     return category_keys, keywords_roots, keywords_select, count_keywords
 
 
@@ -925,12 +917,11 @@ def graph_component_silhouette(n_clusters, lim_x, mat_size, sample_silhouette_va
 
 # In[77]:
 
-def silhouette_score():
     # define individual silouhette scores
-    sample_silhouette_values = silhouette_samples(matrix, clusters)
+sample_silhouette_values = silhouette_samples(matrix, clusters)
 
     # and do the graph
-    graph_component_silhouette(n_clusters, [-0.07, 0.33], len(X), sample_silhouette_values, clusters)
+graph_component_silhouette(n_clusters, [-0.07, 0.33], len(X), sample_silhouette_values, clusters)
 
 
 # #### b. Word Cloud
@@ -1163,7 +1154,7 @@ basket_price.sort_values('CustomerID', ascending = True)[:5]
 # In[87]:
 
 
-print(basket_price['InvoiceDate'].min(), '->',  basket_price['InvoiceDate'].max())
+#print(basket_price['InvoiceDate'].min(), '->',  basket_price['InvoiceDate'].max())
 
 
 # In[141]:
@@ -1232,7 +1223,7 @@ n2_check
 def single_purchase():
     n1 = transactions_per_user[transactions_per_user['count'] == 1].shape[0]
     n2 = transactions_per_user.shape[0]
-    return("no. of customers with single purchase: {:<2}/{:<5} ({:<2.2f}%)".format(n1,n2,n1/n2*100))
+    return(str(n1,n2,n1/n2*100))
 
 
 # #### Creation of customers categories
@@ -1263,7 +1254,7 @@ matrix = selected_customers[list_cols].to_numpy()
 
 scaler = StandardScaler()
 scaler.fit(matrix)
-print('variables mean values: \n' + 90*'-' + '\n' , scaler.mean_)
+#print('variables mean values: \n' + 90*'-' + '\n' , scaler.mean_)
 scaled_matrix = scaler.transform(matrix)
 
 
@@ -1947,7 +1938,7 @@ votingC = votingC.fit(X_train, Y_train)
 # Finally, we can create a prediction for this model:
 predictions = votingC.predict(X_test)
 def final_predict():
-    return("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y_test, predictions)))
+    return((100*metrics.accuracy_score(Y_test, predictions)))
 
 
 # Note that when defining the `votingC classifier`, I only used a `sub-sample` of the whole set of classifiers defined above and only retained the `Random Forest`, the `Linear Regression` and the `Gradient Boosting classifiers`. In practice, this choice has been done with respect to the performance of the classification carried out in the next section.
@@ -2036,7 +2027,7 @@ for clf, label in classifiers:
 
 # In[149]:
 
-
+'''
 predictions = votingC.predict(X)
 print("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y, predictions)))
 
@@ -2053,7 +2044,7 @@ votingC = votingC.fit(X_train, Y_train)
 predictions = votingC.predict(X_test)
 print("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y_test, predictions)))
 
-
+'''
 # ## Conclusion
 
 # The work described in this notebook is based on a `database` providing details on purchases made on an `E-commerce` platform over a period of one year. Each entry in the dataset describes the purchase of a `product`, by a `particular customer` and at a given `date`. In total, approximately  `∼4000 clients` appear in the database. Given the available information, I decided to develop a `classifier` that allows to anticipate the type of purchase that a customer will make, as well as the number of visits that he will make during a year, and this from its first visit to the `E-commerce site`.
