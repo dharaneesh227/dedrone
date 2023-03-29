@@ -21,9 +21,21 @@ def home():
 def overview():
     return render_template("overview.html")
 
+@app.route("/cost")
+def cost():
+    return render_template("cost.html")
+
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.post("/plan")
+def plan():
+    return render_template("plan.html")
+
+@app.post("/order")
+def order():
+    return render_template("order.html")
 
 @app.get("/availability")
 def availability():
