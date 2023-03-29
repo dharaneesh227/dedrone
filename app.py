@@ -13,7 +13,7 @@ client = MongoClient('127.0.0.1', 27017)
 db = client['dedrone']
 users = db.users
 # returns = users.insert_one({"sample":"test 1"}).inserted_id
-print(users.find_one())
+# print(users.find_one())
 
 @app.route("/")
 def home():
