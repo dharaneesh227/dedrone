@@ -14,6 +14,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime, nltk, warnings
+nltk.download('punkt')
 import matplotlib.cm as cm
 import itertools
 from pathlib import Path
@@ -31,7 +32,7 @@ from sklearn.decomposition import PCA
 from IPython.display import display, HTML
 
 # read the datafile
-df_initial = pd.read_csv('/content/drive/MyDrive/proj/data_points (1).csv',encoding="ISO-8859-1",
+df_initial = pd.read_csv('data_points (1).csv',encoding="ISO-8859-1",
                          dtype={'CustomerID': str,'InvoiceID': str})
 print('Dataframe dimensions:', df_initial.shape)
 df_initial['InvoiceDate'] = pd.to_datetime(df_initial['InvoiceDate'])
@@ -73,9 +74,7 @@ def country_and_order():
 
   #print('-' * 10 + " Contry-wise order calculation "+ '-' * 10)
   x = temp_no_of_order_per_count.sort_values(
-      by='CustomerID', ascending=False).rename(index=str,
-                                          columns={"CustomerID": "Country wise number of order"})
-      
+      by='CustomerID', ascending=False).rename(index=str,columns={"CustomerID": "Country wise number of order"})
   return x
 
 

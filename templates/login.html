@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>Sign in Page</title>
-   <link href="style.css" rel="stylesheet">
-   <script src="script.js"></script>
+   <title>Login</title>
+   <link href="{{ url_for('static',filename='css/login.css') }}" rel="stylesheet">
+   <link rel="icon" type="image/ico" href="/static/favicon.ico">
 </head>
 <body>
 	<div class="container" id="container">
@@ -15,7 +15,7 @@
 				<input type="text" placeholder="GST Number" id="gst"/>
 				<input type="text" placeholder="Email" id="Email"/>
 				<input type="text" placeholder="Password" id="Password" />
-				<button style="margin-top: 12px;" onclick="register()">Sign Up</button>			
+				<button style="margin-top: 12px;">Sign Up</button>			
 			</form>
 		</div>
 		<div class="form-container sign-in-container">
@@ -23,7 +23,7 @@
 				<h1>Login</h1>
 				<input type="text" placeholder="Email" id="username" />
 				<input type="text" placeholder="Password" id="pwd" />
-				<button style="margin-top: 20px;" onclick="validate()">Login</button>
+				<button style="margin-top: 20px;">Login</button>
 			</form>
 		</div>
 		<div class="overlay-container">

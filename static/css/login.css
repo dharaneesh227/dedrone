@@ -46,8 +46,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #674188;
+	background-color: #674188;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -55,37 +55,6 @@ button {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
-}
-
-#pid{
-	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
-}
-
-#cls{
-	border-radius: 20px;
-	background-color: transparent;
-	border-color: #000000;
-	color: #000000;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	margin-top: 30px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
-}
-#cls:active{
-	transform: scale(0.95);
-	background-color: #eee;
 }
 
 button:active {
@@ -190,7 +159,7 @@ input {
 }
 
 .overlay {
-	background: #FBEEE6  ; 
+	background: #C3ACD0  ; 
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
