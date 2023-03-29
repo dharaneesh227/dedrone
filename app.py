@@ -7,6 +7,7 @@ from pymongo import MongoClient
 # import customer_acqusition as ca
 
 app=Flask(__name__) 
+app.debug=True
 
 client = MongoClient('127.0.0.1', 27017)
 
@@ -52,4 +53,4 @@ def tracking():
 
 if __name__ == "__main__":
     # webbrowser.open_new('http://127.0.0.1:5000/')
-    app.run(debug=True,) 
+    app.run(debug=True) 
