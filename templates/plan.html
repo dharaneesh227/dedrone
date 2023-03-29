@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Details</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+   <link href="{{ url_for('static',filename='css/details.css') }}" rel="stylesheet">
+   <link rel="icon" type="image/ico" href="/static/favicon.ico">
+   <style>
+    .flex1, .flex2, .flex3{
+        text-align: center;
+        width:300px;  
+        height: 170px;
+        font-family: Verdana;
+        font-style: italic;
+        background-color: white;
+        border: 3px solid grey;
+        border-radius: 30px;
+        margin-top: 25px;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/" style="font-size: 40px; font-family: fantasy; color: white; margin-left: 20px;">Drone Shipperz</a>
+          <div class="contents">
+            <a class="navbar-brand" href="details" style="font-size: 20px;color: white;font-style: italic; "> Business Analysis</a>
+            <a class="navbar-brand" href="availability" style="font-size: 20px;color: white;font-style: italic; "> Availability</a>
+            <a class="navbar-brand" href="tracking" style="font-size: 20px;color: white;margin-right: 100px;font-style: italic; "> Tracking</a>
+            <a href="login" style="text-decoration: none;"><button class="btn"> Login / Register</button></a>
+          </div>
+        </div>
+    </nav>
+    <div class="circles" style="background-color: #C3ACD0 !important;"></div>
+    <div class="flex" style="display:flex;">
+        <form action="/order" method="post" style="margin-top: 20px !important;">
+            <h1 style="font-style: italic; color: #674188;"> Choose Your Plan</h1>
+            <div class="flex1">
+            <button id="rcorners1" style="line-height:2.0; background-color: white; border:none; color:black;font-family: Verdana; margin-top: 30px;" >Payload upto 2 kg<br> Flight Time-160 mins.<br>Price-Rs.1099</button></div>
+            <div class="flex2">
+            <button id="rcorners2"style="line-height:2.0; background-color: white; border:none; color:black;font-family: Verdana; margin-top: 30px;">Payload upto 3 kg<br> Flight Time-140 mins.<br>Price-Rs.1399</button></div>
+            <div class="flex3">
+            <button id="rcorners3"style="line-height:2.0; background-color: white; border:none; color:black;font-family: Verdana; margin-top: 30px;" >Payload upto 4 kg<br> Flight Time-110 mins.<br>Price-Rs.1579</button></div>
+        </form>
+    <div>
+    <div class="circles" style="margin-left:100px; margin-top: 430px;"></div>
+</body>
+</html>
+
+
+
+
+
+

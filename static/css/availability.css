@@ -25,7 +25,7 @@
     font-size: 30px; 
     font-style: italic; 
     color: black; 
-    margin-top: 50px;
+    margin-top: 25px;
     text-align: center;
 }
 
@@ -50,3 +50,24 @@
       transform: scale(1);
     }
   }
+
+  .btn2 {
+	border-radius: 30px;
+	border: 1px solid #674188;
+	background-color: #674188;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+    margin-top: -150px;
+    margin-left: 580px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.btn2:hover {
+	transform: scale(0.95);
+    background-color: #C3ACD0;
+    outline: none;
+}
