@@ -49,7 +49,7 @@ def availability():
 
 @app.route("/business",methods = ['POST','GET'] )
 def business():
-    return render_template("business.html")
+    return render_template("business.html",cities=37,customers=4327,cancled=3654,sp=1489)
 
 @app.get("/details")
 def details():

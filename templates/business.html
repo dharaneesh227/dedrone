@@ -18,13 +18,34 @@
           </div>
         </div>
     </nav>
-    <div class="circles" style="background-color: #C3ACD0 !important;"></div>
+    <!-- <div class="circles" style="background-color: #C3ACD0 !important;"></div> -->
     <div class="main"> We present the complete <p style="color:#674188"> Business Analysis </p> 
         just for you....
     </div>
-    <div class="analysis" style="margin-top: 50px; margin-left: 550px; width: 400px; height: 300px; background-color: bisque;">Add Business analysis model here .....</div>
-    <div class="circles" style="margin-left: 1275px; margin-top: -225px;"></div><br><br>
-    <a href="potentialuser"><button class="btn2"> Find Your Potential Users</button></a>
+    <div class="analysis" style="margin-top: 20px; margin-left: 130px; width: 1400px; height: 300px; box-shadow: #C3ACD0;display: flex;">
+        <div style="float: left;">
+          <img src="/static/imgs/pie.png" width="700" height="400">
+        </div>
+        <div style="float:right; margin-top: 150px;">
+          <h3>No. of cities: {{cities}} </h3>
+          <h3>No. of customers: {{customers}} </h3>
+          <h3>No. of orders canceled: {{cancled}} </h3>
+          <h3>no. of customers with single purchase: {{sp}} </h3>
+        </div>
+      </div>
+    <div style="display: flex;">
+    <div style="margin-top: 120px; margin-left: 130px;">
+      <h3 style="margin-left: 60px;">Grouping of similar searched words</h3><br>
+      <img src="/static/imgs/cluster.png">
+    </div>
+    <div style="margin-top: 130px;">
+      <img src="/static/imgs/wf.png" alt="words">
+    </div>
+    </div>  
+    <!-- <div class="circles" style="margin-left: 1275px; margin-top: -225px;"></div><br><br> -->
+    <div style="align-self: baseline; margin-top: 50px; margin-bottom: 30px;;">
+        <a href="/potentialuser"><button class="btn2"> Find Your Potential Users</button></a>
+    </div>
 </body>
 </html>
 

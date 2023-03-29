@@ -18,12 +18,57 @@
           </div>
         </div>
     </nav>
-    <div class="circles" style="background-color: #C3ACD0 !important;"></div>
-    <div class="analysis" style="margin-top: 50px; margin-left: 550px; width: 400px; height: 400px; background-color: bisque;">Add Potential user model here .....</div>
+    <!-- <div class="circles" style="background-color: #C3ACD0 !important;"></div> -->
+    <center>
+      <div class="main">  <p style="color:#674188"> More Info about you customers</p>
+    </div>
+    </center>
+    <div class="analysis" style="margin-top: 20px; margin-left: 130px; width: 1400px; height: 300px; box-shadow: #C3ACD0;display: flex;">
+      <div style="float: left;">
+        <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+      </div>
+      <div style="float:right; margin-top: 70px; margin-left: 50px;">
+        <img src="/static/imgs/plotcluster.png" height="400" width="600" alt="">
+      </div>
+    </div>
+  <div style="display: flex;">
+  <div style="margin-top: 80px; margin-left: 0px;">
+    <!-- <h3 style="margin-left: 60px;">Grouping of similar searched words</h3><br> -->
+    <!-- <img src="/static/imgs/cluster.png"> -->
+  </div>
+  <div style="margin-top: 130px;">
+    <!-- <img src="/static/imgs/wf.png" alt="words"> -->
+  </div>
+  </div>  
+
     <div class="main"> Fixing the Base station and finding <p style="color:#674188"> The Potential Customers </p> 
         just for you....
     </div>
-    <div class="circles" style="margin-left: 1275px; margin-top: -225px;"></div>
+    <!-- <div class="circles" style="margin-left: 1275px; margin-top: -225px;"></div> -->
+    
+   	<!-- Load plotly.js into the DOM -->
+	  <script src='https://cdn.plot.ly/plotly-2.14.0.min.js'></script>
+	  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <script>
+      d3.csv('https://raw.githubusercontent.com/dharaneesh227/dedrone/master/intensity.csv?token=GHSAT0AAAAAAB7SFWIRC3FCJM3IBRUH7KVGZBECURA',
+        function(err, rows){function unpack(rows, key) {return rows.map(function(row){ return row[key];
+      })};
+      
+      var data = [{
+        lon: unpack(rows, 'Long'), lat: unpack(rows, 'Lat'), radius:10,
+        z: unpack(rows, 'intensity'), type: "densitymapbox", coloraxis: 'coloraxis',
+        hoverinfo: 'skip'}];
+      
+      var layout = {
+          mapbox: {center: {lon: 78, lat: 20}, style: "open-street-map", zoom: 4},
+          coloraxis: {colorscale: "orange"}, title: {text: "Customer - Area Frequency"},
+          width: 600, height: 500, margin: {t: 30, b: 0 }};
+      
+      var config = {mapboxAccessToken: "pk.eyJ1IjoiZGhhcmFuZWVzaDIyNyIsImEiOiJjbGZ0ZW5xbzkwMDVlM21tb21hZXJncnQ2In0.Zn-ca9_uKkY_8hZ2FZ-vyQ"};
+      
+      Plotly.newPlot('myDiv', data, layout, config);
+      })
+      </script>
 </body>
 </html>
 
