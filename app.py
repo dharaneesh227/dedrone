@@ -37,6 +37,10 @@ def plan():
 def order():
     return render_template("order.html")
 
+@app.post("/live")
+def live():
+    return render_template("live.html")
+
 @app.get("/availability")
 def availability():
     return render_template("availability.html")
