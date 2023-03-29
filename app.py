@@ -50,7 +50,6 @@ def tracking():
     return render_template("tracking.html")
 
 
-
 if __name__ == "__main__":
     # webbrowser.open_new('http://127.0.0.1:5000/')
     app.run(debug=True,) 
