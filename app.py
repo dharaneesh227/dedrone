@@ -1,4 +1,5 @@
-from flask import Flask,render_template,redirect,request,session,flash
+from flask import Flask,render_template,redirect,request,session,flash,url_for,send_from_directory
+import os
 import webbrowser
 
 from pymongo import MongoClient
@@ -10,17 +11,46 @@ app=Flask(__name__)
 client = MongoClient('127.0.0.1', 27017)
 
 db = client.flask_db
-
 users = db.users
-
 returns = users.find()
-
 print(returns)
 
 @app.route("/")
-def index():
+def home():
+    return render_template("homepage.html")
+
+@app.route("/homepage")
+def homepage():
+    return render_template("homepage.html")
+
+
+@app.route("/login")
+def login():
     return render_template("login.html")
+
+@app.get("/availability")
+def availability():
+    return render_template("availability.html")
+
+@app.get("/business")
+def business():
+    return render_template("business.html")
+
+@app.get("/details")
+def details():
+    return render_template("details.html")
+
+@app.get("/potentialuser")
+def potentialuser():
+    return render_template("potentialuser.html")
+
+
+@app.get("/tracking")
+def tracking():
+    return render_template("tracking.html")
+
+
 
 if __name__ == "__main__":
     # webbrowser.open_new('http://127.0.0.1:5000/')
-    app.run(debug=True,port=5000) 
+    app.run(debug=True) 
