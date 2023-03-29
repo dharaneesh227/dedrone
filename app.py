@@ -47,13 +47,13 @@ def order():
 def live():
     return render_template("live.html")
 
-@app.get("/availability")
+@app.get("/availability") 
 def availability():
     return render_template("availability.html")
 
 @app.route("/business",methods = ['POST','GET'] )
 def business():
-    return render_template("business.html",cities=37,customers=4327,cancled=3654,sp=1489)
+    return render_template("business.html",cities=37,customers=4327,canceled=3654,sp=1489)
 
 @app.get("/details")
 def details():
