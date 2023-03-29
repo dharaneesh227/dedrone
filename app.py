@@ -19,10 +19,6 @@ print(users.find_one())
 def home():
     return render_template("homepage.html")
 
-@app.route("/homepage")
-def homepage():
-    return render_template("homepage.html")
-
 @app.route("/overview")
 def potentialuser():
     return render_template("overview.html")
