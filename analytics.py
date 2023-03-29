@@ -48,7 +48,6 @@ warnings.filterwarnings("ignore")
 plt.rcParams["patch.force_edgecolor"] = True
 plt.style.use('fivethirtyeight')
 mpl.rc('patch', edgecolor = 'dimgray', linewidth=1)
-get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # Then, will load the `data`. Once done, I also give some basic informations on the content of the dataframe: the type of the various variables, the `number of null values` and their `percentage` with respect to the `total number of entries`:
@@ -951,13 +950,14 @@ for i in range(n_clusters):
 #
 def random_color_func(word=None, font_size=None, position=None,
                       orientation=None, font_path=None, random_state=None):
-    h = int(360.0 * tone / 255.0)
+    h = int(360.0 * 220.0 / 255.0)
     s = int(100.0 * 255.0 / 255.0)
     l = int(100.0 * float(random_state.randint(70, 120)) / 255.0)
     return "hsl({}, {}%, {}%)".format(h, s, l)
 
 #
 def make_wordcloud(liste, increment):
+    fig = plt.figure(1, figsize=(14,14))
     ax1 = fig.add_subplot(4,2,increment)
     words = dict()
     trunc_occurences = liste[0:150]

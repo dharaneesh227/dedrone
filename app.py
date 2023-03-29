@@ -1,13 +1,9 @@
 from flask import Flask,render_template,redirect,request,session,flash,url_for,send_from_directory
 import os
 import webbrowser
-
 from pymongo import MongoClient
 
-# import customer_acqusition as ca
-
-app=Flask(__name__) 
-app.debug=True
+app=Flask(__name__)
 
 client = MongoClient('127.0.0.1', 27017)
 
