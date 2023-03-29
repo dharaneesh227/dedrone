@@ -65,7 +65,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # Load and read the dataset
-df_init = pd.read_csv('C:/Users/SANDY/Dropbox/My PC (LAPTOP-3KKFOMEI)/Downloads/data_points (1).csv',encoding="ISO-8859-1", dtype={'CustomerID': str,'InvoiceID': str})
+df_init = pd.read_csv('data_points (1).csv',encoding="ISO-8859-1", dtype={'CustomerID': str,'InvoiceID': str})
 print('Dataframe dimensions:', df_init.shape)
 
 
@@ -124,7 +124,7 @@ col_info = col_info.append(pd.DataFrame(df_init.isnull().sum()/df_init.shape[0]*
 # In[12]:
 
 
-display(col_info)  # display the col_info dataframe
+#display(col_info)  # display the col_info dataframe
 
 
 # As seen from the above dataframe, is obvious that the `CustomerID` contributed to 25% of missing data
@@ -133,7 +133,7 @@ display(col_info)  # display the col_info dataframe
 
 
 # show first 5 rows
-display(df_init[:5])
+#display(df_init[:5])
 
 
 # In[14]:
@@ -151,7 +151,7 @@ display(df_init[:5])
 
 # I will have to drop the missing values/rows from the CustomerID
 df_init.dropna(axis = 0, subset = ['CustomerID'], inplace = True)
-print('Dataframe dimensions:', df_init.shape)
+#print('Dataframe dimensions:', df_init.shape)
 
 
 # In[16]:
@@ -163,7 +163,7 @@ col_info = col_info.append(pd.DataFrame(df_init.isnull().sum()).T.rename(index={
 
 col_info = col_info.append(pd.DataFrame(df_init.isnull().sum()/df_init.shape[0]*100).T.
                            rename(index={0:'null values (%)'}))
-display(col_info)
+#display(col_info)
 
 
 # In[17]:
@@ -199,14 +199,14 @@ df_init['InvoiceNo'].duplicated().value_counts()
 # In[21]:
 
 
-print('Duplicate Entries: {}'.format(df_init.duplicated().sum()))
+#print('Duplicate Entries: {}'.format(df_init.duplicated().sum()))
 df_init.drop_duplicates(inplace = True)
 
 
 # In[22]:
 
 
-print("Shape of the data set after droping duplicate entries :", format(df_init.shape))
+#print("Shape of the data set after droping duplicate entries :", format(df_init.shape))
 
 
 # ### Data Exploration and exploration of the variable contents
@@ -244,7 +244,7 @@ temp_cou = df_init[['CustomerID', 'InvoiceNo', 'Country']].groupby(['CustomerID'
 
 
 # this displays the individual customers IDs', different InvoiceNo based on dates of purchase and the customer's country
-temp_cou
+#temp_cou
 
 
 # In[25]:
@@ -259,79 +259,22 @@ temp_cou = temp_cou.reset_index(drop = False)
 # In[26]:
 
 
-temp_cou
+#temp_cou
 
 
 # In[27]:
 
 
 # Take count of the number of unique countries
-countries = temp_cou['Country'].value_counts()
-print('No. of countries in the dataframe: {}'.format(len(countries)))
+def no_of_cities():
+    countries = temp_cou['Country'].value_counts()
+    a = 'No. of countries in the dataframe: {}'.format(len(countries))
+    return a
 
 
-# Let's display the result on a chloropleth map
 
-# In[28]:
-
-
-countries.index
-
-
-# In[29]:
-
-
-countries
-
-
-# A `choropleth map` is a type of thematic map in which areas are shaded or patterned in proportion to a statistical variable that represents an aggregate summary of a geographic characteristic within each area, such as population density or per-capita income.
-
-# In[30]:
-
-
-# Customize the data points
-data = dict(type='choropleth', 
-            locations = countries.index,
-            locationmode = 'country names', z = countries,
-            text = countries.index, colorbar = {'title':'Order no.'},
-            colorscale=[[0, 'rgb(224,255,255)'],
-            [0.01, 'rgb(166,206,227)'], [0.02, 'rgb(31,120,180)'],
-            [0.03, 'rgb(178,223,138)'], [0.05, 'rgb(51,160,44)'],
-            [0.10, 'rgb(251,154,153)'], [0.20, 'rgb(255,255,0)'],
-            [1, 'rgb(227,26,28)']],    
-            reversescale = False)
-
-
-# In[31]:
-
-
-layout = dict(title='Number of orders per country',
-              geo = dict(showframe = True, projection={'type':'mercator'}))
-
-choromap = go.Figure(data = [data], layout = layout)
-iplot(choromap, validate=False)
-
-
-# From the Map, You'll see that the dataset is largely dominated by orders made from this first five Countries
-# 
-# * `United Knigdom with 19857 customers`
-# 
-# * `Germany with 603 customers`
-# 
-# * `France with 458 customers`
-# 
-# * `EIRE with 319 customers`
-# 
-# * `Belgium with 119 customers`
-
-# ### Customers and products
-# 
-# The dataframe contains `401,604 entries`. What are the number of users and products in these entries?
 
 # In[32]:
-
-
-df_init
 
 
 # In[33]:
@@ -383,17 +326,18 @@ nb_products_per_basket[:10].sort_values('CustomerID') # List first 10 values
 
 
 # Create a new column(order_canceled) and assign/take count of the canceled InvoiceNo values
-nb_products_per_basket['order_canceled'] = nb_products_per_basket['InvoiceNo'].apply(lambda x:int('C' in x)) 
-display(nb_products_per_basket[:5])
+def order_cancel():
+    nb_products_per_basket['order_canceled'] = nb_products_per_basket['InvoiceNo'].apply(lambda x:int('C' in x)) 
+    display(nb_products_per_basket[:5])
 
-# Sum total of order_canceled
-n1 = nb_products_per_basket['order_canceled'].sum()
+    # Sum total of order_canceled
+    n1 = nb_products_per_basket['order_canceled'].sum()
 
-# Sum of rows
-n2 = nb_products_per_basket.shape[0]
+    # Sum of rows
+    n2 = nb_products_per_basket.shape[0]
 
-# Divide by 100 to get the percentage value
-print('Number of orders canceled: {}/{} ({:.2f}%) '.format(n1, n2, n1/n2*100))
+    # Divide by 100 to get the percentage value
+    return('Number of orders canceled: {}/{} ({:.2f}%) '.format(n1, n2, n1/n2*100))
 
 
 # Note that the number of cancellations is quite large (`∼ 16%` of the total number of `transactions`). Now, let's look at the first lines of the dataframe:
@@ -401,7 +345,7 @@ print('Number of orders canceled: {}/{} ({:.2f}%) '.format(n1, n2, n1/n2*100))
 # In[37]:
 
 
-display(df_init.sort_values('CustomerID')[:5])
+#display(df_init.sort_values('CustomerID')[:5])
 
 
 # On these few lines, we see that when an order is `canceled`, we have another `transactions` in the dataframe, mostly identical except for the `Quantity` and `InvoiceDate variables`. I'll check if this is true for all the entries. 
@@ -418,8 +362,6 @@ df_check = df_init[df_init['Quantity'] < 0][['CustomerID','Quantity','StockCode'
 for index, col in  df_check.iterrows():
     if df_init[(df_init['CustomerID'] == col[0]) & (df_init['Quantity'] == -col[1]) 
                 & (df_init['Description'] == col[2])].shape[0] == 0: 
-        print(df_check.loc[index])
-        print(15*'-'+'>'+' HYPOTHESIS NOT FULFILLED')
         break
 
 
@@ -427,7 +369,6 @@ for index, col in  df_check.iterrows():
 
 
 df_check = df_init[df_init['Quantity'] < 0][['CustomerID','Quantity','StockCode','Description','UnitPrice']]
-df_check
 
 
 # In[40]:
@@ -449,8 +390,6 @@ df_check = df_init[(df_init['Quantity'] < 0) & (df_init['Description'] != 'Disco
 for index, col in  df_check.iterrows():
     if df_init[(df_init['CustomerID'] == col[0]) & (df_init['Quantity'] == -col[1]) & 
                (df_init['Description'] == col[2])].shape[0] == 0: 
-        print(index, df_check.loc[index])
-        print(15*'-'+'>'+' HYPOTHESIS NOT FULFILLED')
         break
 
 
@@ -506,8 +445,8 @@ for index, col in  df_init.iterrows():
 # In[43]:
 
 
-print("entry_to_remove: {}".format(len(entry_to_remove)))
-print("doubtfull_entry: {}".format(len(doubtfull_entry)))
+#print("entry_to_remove: {}".format(len(entry_to_remove)))
+#print("doubtfull_entry: {}".format(len(doubtfull_entry)))
 
 
 # Among these entries, the lines listed in the `doubtfull_entry` list correspond to the entries indicating a `cancellation` but for which there is no command beforehand. In practice, I decided to delete all of these entries, which count respectively for  `∼ 1.4%` and `0.2%` of the dataframe entries.
@@ -526,8 +465,8 @@ df_cleaned.drop(doubtfull_entry, axis = 0, inplace = True)
 
 
 remaining_entries = df_cleaned[(df_cleaned['Quantity'] < 0) & (df_cleaned['StockCode'] != 'D')]
-print("nb of entries to delete: {}".format(remaining_entries.shape[0]))
-remaining_entries.head(5)
+#print("nb of entries to delete: {}".format(remaining_entries.shape[0]))
+#remaining_entries.head(5)
 
 
 # In[46]:
@@ -554,13 +493,13 @@ remaining_entries.sort_index(axis=0)[:5]
 # In[49]:
 
 
-df_cleaned.head(5)
+#df_cleaned.head(5)
 
 
 # In[50]:
 
 
-df_cleaned.info()
+#df_cleaned.info()
 
 
 # We see that the quantity canceled is greater than the sum of the previous purchases.
@@ -573,15 +512,15 @@ df_cleaned.info()
 
 
 list_special_codes = df_cleaned[df_cleaned['StockCode'].str.contains('^[a-zA-Z]+', regex=True)]['StockCode'].unique()
-list_special_codes
+#list_special_codes
 
 
 # In[52]:
 
 
 # Pick this uniques characters from Description that corresponds to the special codes
-for code in list_special_codes:
-    print("{:<15} -> {:<30}".format(code, df_cleaned[df_cleaned['StockCode'] == code]['Description'].unique()[0]))
+'''for code in list_special_codes:
+    print("{:<15} -> {:<30}".format(code, df_cleaned[df_cleaned['StockCode'] == code]['Description'].unique()[0]))'''
 
 
 # We see that there are several types of `peculiar transactions`, connected e.g. to `port charges` or `bank charges`.
@@ -600,7 +539,7 @@ df_cleaned.sort_values('CustomerID')[:5]
 # In[54]:
 
 
-df_cleaned.info()
+#df_cleaned.info()
 
 
 # Each entry of the dataframe indicates `prizes` for a `single kind of product`. Hence, orders are split on several lines. Will have to collect all the purchases made during a single order to recover the total order prize:
@@ -609,7 +548,7 @@ df_cleaned.info()
 
 
 df_cleaned['InvoiceDate_int'] = df_cleaned['InvoiceDate'].astype('int64')
-df_cleaned[:5]
+#df_cleaned[:5]
 
 
 # In[56]:
@@ -648,7 +587,7 @@ basket_price.max(), basket_price.min()
 
 
 nice = [23, 4, 56, 7, 89, 0.45, 56]
-print(enumerate(nice))
+#print(enumerate(nice))
 
 
 # In[60]:
@@ -668,17 +607,18 @@ for i, price in enumerate(price_range):
 
 
 # Representation of the number of purchases / amount    
-plt.rc('font', weight='bold')
-f, ax = plt.subplots(figsize=(11, 6))
-colors = ['yellowgreen', 'gold', 'wheat', 'c', 'violet', 'royalblue','firebrick']
-labels = [ '{}<.<{}'.format(price_range[i-1], s) for i,s in enumerate(price_range) if i != 0]
-sizes  = count_price
-explode = [0.0 if sizes[i] < 100 else 0.0 for i in range(len(sizes))]
-ax.pie(sizes, explode = explode, labels=labels, colors = colors,
-       autopct = lambda x:'{:1.0f}%'.format(x) if x > 1 else '',
-       shadow = False, startangle=0)
-ax.axis('equal')
-f.text(0.5, 1.01, "Distribution of order amounts", ha='center', fontsize = 18);
+def represent_graph():
+    plt.rc('font', weight='bold')
+    f, ax = plt.subplots(figsize=(11, 6))
+    colors = ['yellowgreen', 'gold', 'wheat', 'c', 'violet', 'royalblue','firebrick']
+    labels = [ '{}<.<{}'.format(price_range[i-1], s) for i,s in enumerate(price_range) if i != 0]
+    sizes  = count_price
+    explode = [0.0 if sizes[i] < 100 else 0.0 for i in range(len(sizes))]
+    ax.pie(sizes, explode = explode, labels=labels, colors = colors,
+        autopct = lambda x:'{:1.0f}%'.format(x) if x > 1 else '',
+        shadow = False, startangle=0)
+    ax.axis('equal')
+    f.text(0.5, 1.01, "Distribution of order amounts", ha='center', fontsize = 18);
 
 
 # It can be seen that the vast majority of orders concern relatively large purchases given that  `∼65%` of purchases give prizes in excess of `£200`.
@@ -758,7 +698,7 @@ df_products = pd.DataFrame(df_init['Description'].unique()).rename(columns = {0:
 # In[63]:
 
 
-df_products
+#df_products
 
 
 # Once this list is created, Will have to use the function I previously defined in order to analyze the `description` of the various products:
@@ -799,26 +739,26 @@ list_products.sort(key = lambda x:x[1], reverse = True)
 
 # In[67]:
 
-
-liste = sorted(list_products, key = lambda x:x[1], reverse = True)
-
-
-plt.rc('font', weight='normal')
-fig, ax = plt.subplots(figsize=(10, 30))
-y_axis = [i[1] for i in liste[:125]]
-x_axis = [k for k,i in enumerate(liste[:125])]
-x_label = [i[0] for i in liste[:125]]
-plt.xticks(fontsize = 15)
-plt.yticks(fontsize = 13)
-plt.yticks(x_axis, x_label)
-plt.xlabel("No. of occurences", fontsize = 18, labelpad = 10)
-ax.barh(x_axis, y_axis, align = 'center')
-ax = plt.gca()
-ax.invert_yaxis()
+def common_words():
+    liste = sorted(list_products, key = lambda x:x[1], reverse = True)
 
 
-plt.title("Words occurence",bbox={'facecolor':'k', 'pad':5}, color='w',fontsize = 25)
-plt.show()
+    plt.rc('font', weight='normal')
+    fig, ax = plt.subplots(figsize=(10, 30))
+    y_axis = [i[1] for i in liste[:125]]
+    x_axis = [k for k,i in enumerate(liste[:125])]
+    x_label = [i[0] for i in liste[:125]]
+    plt.xticks(fontsize = 15)
+    plt.yticks(fontsize = 13)
+    plt.yticks(x_axis, x_label)
+    plt.xlabel("No. of occurences", fontsize = 18, labelpad = 10)
+    ax.barh(x_axis, y_axis, align = 'center')
+    ax = plt.gca()
+    ax.invert_yaxis()
+
+
+    plt.title("Words occurence",bbox={'facecolor':'k', 'pad':5}, color='w',fontsize = 25)
+    plt.show()
 
 
 # ### Defining product categories
@@ -842,7 +782,7 @@ for k,v in count_keywords.items():
 
 # list most kept words
 list_products.sort(key = lambda x:x[1], reverse = True)
-print('words kept:', len(list_products))
+#print('words kept:', len(list_products))
 
 
 # #### Data encoding
@@ -888,14 +828,14 @@ for i, prod in enumerate(liste_produits):
 # In[71]:
 
 
-print("{:<8} {:<20} \n".format('range', 'no. products') + 20*'-')
+#print("{:<8} {:<20} \n".format('range', 'no. products') + 20*'-')
 
 for i in range(len(threshold)):
     if i == len(threshold)-1:
         col = '.>{}'.format(threshold[i])
     else:
         col = '{}<.<{}'.format(threshold[i],threshold[i+1])    
-    print("{:<10}  {:<20}".format(col, X.loc[:, col].sum()))
+    #print("{:<10}  {:<20}".format(col, X.loc[:, col].sum()))
 
 
 # ### Creating clusters of products
@@ -914,7 +854,7 @@ for n_clusters in range(3,10):
     kmeans.fit(matrix)
     clusters = kmeans.predict(matrix)
     silhouette_avg = silhouette_score(matrix, clusters)
-    print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
+    #print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
 
 
 # In practice, the scores obtained above can be considered equivalent since, depending on the run, scores of  `0.1±0.05`  will be obtained for all clusters with `n_clusters  >  3` (we obtain slightly lower scores for the first cluster). On the other hand, I found that beyond `5 clusters`, some clusters contained very few elements. I therefore choose to separate the dataset into `5 clusters`. In order to ensure a good classification at every run of the notebook, I iterate untill we obtain the best possible silhouette score, which is, in the present case, around `0.15`:
@@ -930,7 +870,7 @@ while silhouette_avg < 0.145:
     clusters = kmeans.predict(matrix)
     silhouette_avg = silhouette_score(matrix, clusters)
     
-    print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
+    #print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
 
 
 # ### Characterizing the content of clusters
@@ -985,12 +925,12 @@ def graph_component_silhouette(n_clusters, lim_x, mat_size, sample_silhouette_va
 
 # In[77]:
 
+def silhouette_score():
+    # define individual silouhette scores
+    sample_silhouette_values = silhouette_samples(matrix, clusters)
 
-# define individual silouhette scores
-sample_silhouette_values = silhouette_samples(matrix, clusters)
-
-# and do the graph
-graph_component_silhouette(n_clusters, [-0.07, 0.33], len(X), sample_silhouette_values, clusters)
+    # and do the graph
+    graph_component_silhouette(n_clusters, [-0.07, 0.33], len(X), sample_silhouette_values, clusters)
 
 
 # #### b. Word Cloud
@@ -1044,17 +984,18 @@ def make_wordcloud(liste, increment):
     plt.title('cluster nº{}'.format(increment-1))
     
 #
-fig = plt.figure(1, figsize=(14,14))
-color = [0, 160, 130, 95, 280, 40, 330, 110, 25]
-for i in range(n_clusters):
-    list_cluster_occurences = occurence[i]
+def word_cloud():
+    fig = plt.figure(1, figsize=(14,14))
+    color = [0, 160, 130, 95, 280, 40, 330, 110, 25]
+    for i in range(n_clusters):
+        list_cluster_occurences = occurence[i]
 
-    tone = color[i] # define the color of the words
-    liste = []
-    for key, value in list_cluster_occurences.items():
-        liste.append([key, value])
-    liste.sort(key = lambda x:x[1], reverse = True)
-    make_wordcloud(liste, i+1) 
+        tone = color[i] # define the color of the words
+        liste = []
+        for key, value in list_cluster_occurences.items():
+            liste.append([key, value])
+        liste.sort(key = lambda x:x[1], reverse = True)
+        make_wordcloud(liste, i+1) 
 
 
 # From the above representation, we can see that for example, one of the clusters contains objects that could be associated with `gifts` 
@@ -1081,7 +1022,7 @@ pca_samples = pca.transform(matrix)
 
 # In[81]:
 
-
+'''
 fig, ax = plt.subplots(figsize=(14, 5))
 sns.set(font_scale=1)
 plt.step(range(matrix.shape[1]), pca.explained_variance_ratio_.cumsum(), where='mid',
@@ -1098,7 +1039,7 @@ ax.set_xticklabels([s if int(s.get_text())%2 == 0 else '' for s in ax.get_xtickl
 plt.ylabel('Explained variance', fontsize = 14)
 plt.xlabel('Principal components', fontsize = 14)
 plt.legend(loc='upper left', fontsize = 13);
-
+'''
 
 # We see that the number of components required to explain the data is `extremely important:` we need more than `100 components` to explain `90%` of the variance of the data. In practice, I decided to keep only a limited number of components since this decomposition is only performed to visualize the data:
 
@@ -1113,44 +1054,44 @@ mat['cluster'] = pd.Series(clusters)
 
 # In[83]:
 
+def pca_graphs():
+    import matplotlib.patches as mpatches
 
-import matplotlib.patches as mpatches
+    sns.set_style("white")
+    sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
 
-sns.set_style("white")
-sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
+    LABEL_COLOR_MAP = {0:'r', 1:'gold', 2:'b', 3:'k', 4:'c', 5:'g'}
+    label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
 
-LABEL_COLOR_MAP = {0:'r', 1:'gold', 2:'b', 3:'k', 4:'c', 5:'g'}
-label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
-
-fig = plt.figure(figsize = (15,8))
-increment = 0
-for ix in range(4):
-    for iy in range(ix+1, 4):    
-        increment += 1
-        ax = fig.add_subplot(2,3,increment)
-        ax.scatter(mat[ix], mat[iy], c= label_color, alpha=0.4) 
-        plt.ylabel('PCA {}'.format(iy+1), fontsize = 12)
-        plt.xlabel('PCA {}'.format(ix+1), fontsize = 12)
-        ax.yaxis.grid(color='lightgray', linestyle=':')
-        ax.xaxis.grid(color='lightgray', linestyle=':')
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        
+    fig = plt.figure(figsize = (15,8))
+    increment = 0
+    for ix in range(4):
+        for iy in range(ix+1, 4):    
+            increment += 1
+            ax = fig.add_subplot(2,3,increment)
+            ax.scatter(mat[ix], mat[iy], c= label_color, alpha=0.4) 
+            plt.ylabel('PCA {}'.format(iy+1), fontsize = 12)
+            plt.xlabel('PCA {}'.format(ix+1), fontsize = 12)
+            ax.yaxis.grid(color='lightgray', linestyle=':')
+            ax.xaxis.grid(color='lightgray', linestyle=':')
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+            
+            if increment == 9: break
         if increment == 9: break
-    if increment == 9: break
-        
+            
 
-# I set the legend: abreviation -> airline name
-comp_handler = []
-for i in range(5):
-    comp_handler.append(mpatches.Patch(color = LABEL_COLOR_MAP[i], label = i))
+    # I set the legend: abreviation -> airline name
+    comp_handler = []
+    for i in range(5):
+        comp_handler.append(mpatches.Patch(color = LABEL_COLOR_MAP[i], label = i))
 
-plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.97), 
-           title='Cluster', facecolor = 'lightgrey',
-           shadow = True, frameon = True, framealpha = 1,
-           fontsize = 13, bbox_transform = plt.gcf().transFigure)
+    plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.97), 
+            title='Cluster', facecolor = 'lightgrey',
+            shadow = True, frameon = True, framealpha = 1,
+            fontsize = 13, bbox_transform = plt.gcf().transFigure)
 
-plt.show()
+    plt.show()
 
 
 # ### Customer categories
@@ -1288,10 +1229,10 @@ n2_check
 
 # In[93]:
 
-
-n1 = transactions_per_user[transactions_per_user['count'] == 1].shape[0]
-n2 = transactions_per_user.shape[0]
-print("no. of customers with single purchase: {:<2}/{:<5} ({:<2.2f}%)".format(n1,n2,n1/n2*100))
+def single_purchase():
+    n1 = transactions_per_user[transactions_per_user['count'] == 1].shape[0]
+    n2 = transactions_per_user.shape[0]
+    return("no. of customers with single purchase: {:<2}/{:<5} ({:<2.2f}%)".format(n1,n2,n1/n2*100))
 
 
 # #### Creation of customers categories
@@ -1313,7 +1254,6 @@ matrix = selected_customers[list_cols].to_numpy()
 # In[96]:
 
 
-matrix
 
 
 # In practice, the different variables I selected have quite different ranges of `variation` and before continuing the analysis, I create a `matrix` where these data are standardized:
@@ -1330,7 +1270,7 @@ scaled_matrix = scaler.transform(matrix)
 # In[98]:
 
 
-scaled_matrix
+
 
 
 # In the following, I will create `clusters of customers`. In practice, before creating these clusters, it is interesting to define a base of smaller dimension allowing to describe the `scaled_matrix` matrix. In this case, I will use this base in order to create a representation of the different clusters and thus verify the quality of the separation of the different groups. I therefore perform a `PCA` beforehand:
@@ -1347,7 +1287,7 @@ pca_samples = pca.transform(scaled_matrix)
 
 # In[100]:
 
-
+'''
 fig, ax = plt.subplots(figsize=(14, 5))
 sns.set(font_scale=1)
 plt.step(range(matrix.shape[1]), pca.explained_variance_ratio_.cumsum(), where='mid',
@@ -1361,7 +1301,7 @@ ax.set_xticklabels([s if int(s.get_text())%2 == 0 else '' for s in ax.get_xtickl
 plt.ylabel('Explained variance', fontsize = 14)
 plt.xlabel('Principal components', fontsize = 14)
 plt.legend(loc='best', fontsize = 13);
-
+'''
 
 # #### Creation of customer categories
 # 
@@ -1411,44 +1351,44 @@ mat.head()
 
 # In[105]:
 
+def ten_clusters():
+    import matplotlib.patches as mpatches
 
-import matplotlib.patches as mpatches
+    sns.set_style("white")
+    sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
 
-sns.set_style("white")
-sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
+    LABEL_COLOR_MAP = {0:'r', 1:'tan', 2:'b', 3:'k', 4:'c', 5:'g', 6:'deeppink', 7:'skyblue', 8:'darkcyan', 9:'orange',
+                    10:'yellow', 11:'tomato', 12:'seagreen'}
+    label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
 
-LABEL_COLOR_MAP = {0:'r', 1:'tan', 2:'b', 3:'k', 4:'c', 5:'g', 6:'deeppink', 7:'skyblue', 8:'darkcyan', 9:'orange',
-                   10:'yellow', 11:'tomato', 12:'seagreen'}
-label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
-
-fig = plt.figure(figsize = (12,10))
-increment = 0
-for ix in range(6):
-    for iy in range(ix+1, 6):   
-        increment += 1
-        ax = fig.add_subplot(4,3,increment)
-        ax.scatter(mat[ix], mat[iy], c= label_color, alpha=0.5) 
-        plt.ylabel('PCA {}'.format(iy+1), fontsize = 12)
-        plt.xlabel('PCA {}'.format(ix+1), fontsize = 12)
-        ax.yaxis.grid(color='lightgray', linestyle=':')
-        ax.xaxis.grid(color='lightgray', linestyle=':')
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        
+    fig = plt.figure(figsize = (12,10))
+    increment = 0
+    for ix in range(6):
+        for iy in range(ix+1, 6):   
+            increment += 1
+            ax = fig.add_subplot(4,3,increment)
+            ax.scatter(mat[ix], mat[iy], c= label_color, alpha=0.5) 
+            plt.ylabel('PCA {}'.format(iy+1), fontsize = 12)
+            plt.xlabel('PCA {}'.format(ix+1), fontsize = 12)
+            ax.yaxis.grid(color='lightgray', linestyle=':')
+            ax.xaxis.grid(color='lightgray', linestyle=':')
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+            
+            if increment == 12: break
         if increment == 12: break
-    if increment == 12: break
-        
-# I set the legend: abreviation -> airline name
-comp_handler = []
-for i in range(n_clusters):
-    comp_handler.append(mpatches.Patch(color = LABEL_COLOR_MAP[i], label = i))
+            
+    # I set the legend: abreviation -> airline name
+    comp_handler = []
+    for i in range(n_clusters):
+        comp_handler.append(mpatches.Patch(color = LABEL_COLOR_MAP[i], label = i))
 
-plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.9), 
-           title='Cluster', facecolor = 'lightgrey',
-           shadow = True, frameon = True, framealpha = 1,
-           fontsize = 13, bbox_transform = plt.gcf().transFigure)
+    plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.9), 
+            title='Cluster', facecolor = 'lightgrey',
+            shadow = True, frameon = True, framealpha = 1,
+            fontsize = 13, bbox_transform = plt.gcf().transFigure)
 
-plt.tight_layout()
+    plt.tight_layout()
 
 
 # From this representation, it can be seen, for example, that the first `principal component` allow to separate the `tiniest clusters` from the rest. More generally, we see that there is always a representation in which two clusters will appear to be distinct.
@@ -1493,7 +1433,7 @@ for i in range(n_clusters):
 
     
 merged_df.drop('CustomerID', axis = 1, inplace = True)
-print('number of customers:', merged_df['size'].sum())
+#print('number of customers:', merged_df['size'].sum())
 
 merged_df = merged_df.sort_values('sum')
 
@@ -1515,8 +1455,7 @@ liste_index_reordered += [s for s in merged_df.index if s not in liste_index]
 
 merged_df = merged_df.reindex(index = liste_index_reordered)
 merged_df = merged_df.reset_index(drop = False)
-display(merged_df[['cluster', 'count', 'min', 'max', 'mean', 'sum', 'categ_0',
-                   'categ_1', 'categ_2', 'categ_3', 'categ_4', 'size']])
+#display(merged_df[['cluster', 'count', 'min', 'max', 'mean', 'sum', 'categ_0','categ_1', 'categ_2', 'categ_3', 'categ_4', 'size']])
 
 
 # #### Customers morphology
@@ -1582,30 +1521,30 @@ class RadarChart():
 # The code below shows a global view of the content of each cluster:
 
 # In[111]:
+def customer_plots_radar():
 
+    fig = plt.figure(figsize=(10,12))
 
-fig = plt.figure(figsize=(10,12))
+    attributes = ['count', 'mean', 'sum', 'categ_0', 'categ_1', 'categ_2', 'categ_3', 'categ_4']
+    ranges = [[0.01, 10], [0.01, 1500], [0.01, 10000], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75]]
+    index  = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-attributes = ['count', 'mean', 'sum', 'categ_0', 'categ_1', 'categ_2', 'categ_3', 'categ_4']
-ranges = [[0.01, 10], [0.01, 1500], [0.01, 10000], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75], [0.01, 75]]
-index  = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    n_groups = n_clusters ; i_cols = 3
+    i_rows = n_groups//i_cols
+    size_x, size_y = (1/i_cols), (1/i_rows)
 
-n_groups = n_clusters ; i_cols = 3
-i_rows = n_groups//i_cols
-size_x, size_y = (1/i_cols), (1/i_rows)
-
-for ind in range(n_clusters):
-    ix = ind%3 ; iy = i_rows - ind//3
-    pos_x = ix*(size_x + 0.05) ; pos_y = iy*(size_y + 0.05)            
-    location = [pos_x, pos_y]  ; sizes = [size_x, size_y] 
-    
-    
-    data = np.array(merged_df.loc[index[ind], attributes])    
-    radar = RadarChart(fig, location, sizes, attributes, ranges)
-    radar.plot(data, color = 'b', linewidth=2.0)
-    radar.fill(data, alpha = 0.2, color = 'b')
-    radar.title(title = 'cluster nº{}'.format(index[ind]), color = 'r')
-    ind += 1
+    for ind in range(n_clusters):
+        ix = ind%3 ; iy = i_rows - ind//3
+        pos_x = ix*(size_x + 0.05) ; pos_y = iy*(size_y + 0.05)            
+        location = [pos_x, pos_y]  ; sizes = [size_x, size_y] 
+        
+        
+        data = np.array(merged_df.loc[index[ind], attributes])    
+        radar = RadarChart(fig, location, sizes, attributes, ranges)
+        radar.plot(data, color = 'b', linewidth=2.0)
+        radar.fill(data, alpha = 0.2, color = 'b')
+        radar.title(title = 'cluster nº{}'.format(index[ind]), color = 'r')
+        ind += 1
 
 
 # It can be seen, for example, that the first `5 clusters` correspond to a `strong preponderance`(the quality or fact of being greater in number, quantity, or importance) of purchases in a particular category of products. Other clusters will differ from basket averages(mean), the `total sum spent` by the clients (sum) or the `total number` of visits made (count).
@@ -1643,7 +1582,7 @@ class Class_Fit(object):
     # predict
     def grid_predict(self, X, Y):
         self.predictions = self.grid.predict(X)
-        print("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y, self.predictions)))
+        return("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y, self.predictions)))
 
 
 # Since the goal is to define the `class` to which a `client` belongs and this, as soon as its first visit, I only keep the variables that describe the content of the basket, and do not take into account the variables related to the frequency of visits or variations of the basket price over time:
@@ -1665,7 +1604,7 @@ Y.value_counts()
 # In[115]:
 
 
-X.head()
+#X.head()
 
 
 # Finally, I split the `dataset` in `train` and `test sets`:
@@ -1679,13 +1618,13 @@ X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, train_
 # In[117]:
 
 
-X_train.shape, Y_train.shape
+#X_train.shape, Y_train.shape
 
 
 # In[118]:
 
 
-X_test.shape, Y_test.shape
+#X_test.shape, Y_test.shape
 
 
 # ### `Support Vector Machine Classifier (SVC)`
@@ -1716,7 +1655,7 @@ svc.grid_fit(X = X_train, Y = Y_train)
 # In[121]:
 
 
-svc.grid_predict(X_test, Y_test)
+res = svc.grid_predict(X_test, Y_test)
 
 
 # #### Confusion matrix
@@ -1757,7 +1696,7 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
 
 # In[123]:
 
-
+'''
 class_names = [i for i in range(11)]
 
 cnf_matrix = confusion_matrix(Y_test, svc.predictions) 
@@ -1767,7 +1706,7 @@ np.set_printoptions(precision=2)
 plt.figure(figsize = (8,8))
 
 plot_confusion_matrix(cnf_matrix, classes=class_names, normalize = False, title='Confusion matrix')
-
+'''
 
 # #### Learning curve
 # 
@@ -1810,11 +1749,11 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
 
 # In[125]:
 
-
+'''
 g = plot_learning_curve(svc.grid.best_estimator_,
                         "SVC learning curves", X_train, Y_train, ylim = [1.01, 0.6],
                         cv = 5,  train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5,
-                                                0.6, 0.7, 0.8, 0.9, 1])
+                                                0.6, 0.7, 0.8, 0.9, 1])'''
 
 
 # On this curve, we can see that the `train` and `cross-validation` curves `converge` towards the same limit when the sample size increases. This is typical of modeling with `low variance` and proves that the model does not suffer from `overfitting`. Also, we can see that the `accuracy` of the training curve is correct which is synonymous of a `low bias`. Hence the model does not `underfit the data`.
@@ -1833,17 +1772,17 @@ lr.grid_search(parameters = [{'C':np.logspace(-2,2,20)}], Kfold = 5)
 lr.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-lr.grid_predict(X_test, Y_test)
+res1 = lr.grid_predict(X_test, Y_test)
 
 
 # Then, I plot the `learning curve` to have a feeling of the `quality of the model`:
 
 # In[127]:
 
-
+'''
 g = plot_learning_curve(lr.grid.best_estimator_, "Logistic Regression learning curves", X_train, Y_train,
                         ylim = [1.01, 0.7], cv = 5, 
-                        train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+                        train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])'''
 
 
 # #### k-Nearest Neighbors
@@ -1858,15 +1797,15 @@ knn.grid_search(parameters = [{'n_neighbors': np.arange(1,50,1)}], Kfold = 5)
 knn.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-knn.grid_predict(X_test, Y_test)
+res2 = knn.grid_predict(X_test, Y_test)
 
 
 # In[129]:
 
-
+'''
 g = plot_learning_curve(knn.grid.best_estimator_, "Nearest Neighbors learning curves", X_train, Y_train,
                         ylim = [1.01, 0.7], cv = 5, 
-                        train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+                        train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])'''
 
 
 # #### Decision Tree
@@ -1881,16 +1820,16 @@ tr.grid_search(parameters = [{'criterion' : ['entropy', 'gini'], 'max_features' 
 tr.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-tr.grid_predict(X_test, Y_test)
+res3 = tr.grid_predict(X_test, Y_test)
 
 
 # In[131]:
 
-
+'''
 g = plot_learning_curve(tr.grid.best_estimator_, "Decision tree learning curves", X_train, Y_train,
                         ylim = [1.01, 0.7], cv = 5, 
                         train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
-
+'''
 
 # #### Random Forest
 
@@ -1907,16 +1846,16 @@ rf.grid_search(parameters = param_grid, Kfold = 5)
 rf.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-rf.grid_predict(X_test, Y_test)
+res4 = rf.grid_predict(X_test, Y_test)
 
 
 # In[133]:
 
-
+'''
 g = plot_learning_curve(rf.grid.best_estimator_, "Random Forest learning curves", X_train, Y_train,
                         ylim = [1.01, 0.7], cv = 5, 
                         train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
-
+'''
 
 # #### AdaBoost Classifier
 
@@ -1931,16 +1870,16 @@ ada.grid_search(parameters = param_grid, Kfold = 5)
 ada.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-ada.grid_predict(X_test, Y_test)
+res5 = ada.grid_predict(X_test, Y_test)
 
 
 # In[135]:
 
-
+'''
 g = plot_learning_curve(ada.grid.best_estimator_, "AdaBoost learning curves", X_train, Y_train,
                         ylim = [1.01, 0.4], cv = 5, 
                         train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
-
+'''
 
 # #### Gradient Boosting Classifier
 
@@ -1955,17 +1894,17 @@ gb.grid_search(parameters = param_grid, Kfold = 5)
 gb.grid_fit(X = X_train, Y = Y_train)
 
 # predict on test data
-gb.grid_predict(X_test, Y_test)
+res6 = gb.grid_predict(X_test, Y_test)
 
 
 # In[137]:
 
-
+'''
 g = plot_learning_curve(gb.grid.best_estimator_, "Gradient Boosting learning curves", X_train, Y_train,
                         ylim = [1.01, 0.7], cv = 5, 
                         train_sizes = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
 
-
+'''
 # ### Let's vote !
 # 
 # Finally, the results of the different `classifiers` presented in the previous sections can be combined to improve the `classification model`. This can be achieved by selecting the `customer category` as the one indicated by the `majority of classifiers`. To do this, I use the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html">`VotingClassifier method`</a> of the `sklearn package`. 
@@ -1997,7 +1936,8 @@ lr_best  = linear_model.LogisticRegression(**lr.grid.best_params_)
 # Then, I define a classifier that merges the results of the various `classifiers`:
 
 # In[139]:
-
+def result_params():
+    return res,res1, res2, res3, res4, res5, res6
 
 votingC = ensemble.VotingClassifier(estimators=[('rf', rf_best),('gb', gb_best),('lr', lr_best)], voting='soft')
 
@@ -2006,7 +1946,8 @@ votingC = votingC.fit(X_train, Y_train)
 
 # Finally, we can create a prediction for this model:
 predictions = votingC.predict(X_test)
-print("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y_test, predictions)))
+def final_predict():
+    return("Precision: {:.2f} % ".format(100*metrics.accuracy_score(Y_test, predictions)))
 
 
 # Note that when defining the `votingC classifier`, I only used a `sub-sample` of the whole set of classifiers defined above and only retained the `Random Forest`, the `Linear Regression` and the `Gradient Boosting classifiers`. In practice, this choice has been done with respect to the performance of the classification carried out in the next section.
@@ -2087,8 +2028,8 @@ classifiers = [(svc, 'Support Vector Machine'),
 
 #
 for clf, label in classifiers:
-    print(30*'_', '\n{}'.format(label))
-    clf.grid_predict(X, Y)
+    #print(30*'_', '\n{}'.format(label))
+    b = clf.grid_predict(X, Y)
 
 
 # Finally, as anticipated in `earlier`, it is possible to improve the quality of the `classifier` by combining their respective predictions. At this level, I chose to mix `Random Forest`, `Gradient Boosting` and `k-Nearest Neighbors` predictions because this leads to a slight improvement in predictions:
