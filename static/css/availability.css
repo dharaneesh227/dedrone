@@ -28,3 +28,25 @@
     margin-top: 50px;
     text-align: center;
 }
+
+.circles{
+    animation: growAndFade 3s infinite ease-out;
+    background-color: #674188;
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+    opacity: 0;
+    margin-left: 0px;
+    position: absolute;
+}
+
+@keyframes growAndFade {
+    0% {
+      opacity: .50;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
