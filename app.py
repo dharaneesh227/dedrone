@@ -19,10 +19,9 @@ print(users.find_one())
 def home():
     return render_template("homepage.html")
 
-@app.route("/homepage")
-def homepage():
-    return render_template("homepage.html")
-
+@app.route("/overview")
+def potentialuser():
+    return render_template("overview.html")
 
 @app.route("/login")
 def login():
@@ -32,7 +31,7 @@ def login():
 def availability():
     return render_template("availability.html")
 
-@app.get("/business")
+@app.post("/business")
 def business():
     return render_template("business.html")
 
@@ -53,4 +52,4 @@ def tracking():
 
 if __name__ == "__main__":
     # webbrowser.open_new('http://127.0.0.1:5000/')
-    app.run(debug=True) 
+    app.run(debug=True,) 
