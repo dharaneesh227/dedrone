@@ -20,7 +20,7 @@ def home():
     return render_template("homepage.html")
 
 @app.route("/overview")
-def potentialuser():
+def overview():
     return render_template("overview.html")
 
 @app.route("/login")
@@ -47,7 +47,6 @@ def potentialuser():
 @app.get("/tracking")
 def tracking():
     return render_template("tracking.html")
-
 
 
 if __name__ == "__main__":
