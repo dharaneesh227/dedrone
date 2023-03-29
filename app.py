@@ -31,6 +31,10 @@ def cost():
 def loging():
     return render_template("login.html")
 
+@app.route("/statistics")
+def stat():
+    return render_template("statistics.html")
+
 @app.post("/plan")
 def plan():
     return render_template("plan.html")

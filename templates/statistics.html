@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Statistical Analysis</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+   <link href="{{ url_for('static',filename='css/availability.css') }}" rel="stylesheet">
+   <link rel="icon" type="image/ico" href="/static/favicon.ico">
+   <style>
+    table{
+        height:auto;
+        width:850px;
+        font-family: Verdana;
+        font-size:15px;
+        margin-top: 25px;
+        margin-left: 300px;
+        text-align: center;
+    }
+    tr{
+        box-shadow: 5px 5px 15px grey;
+    }
+    th{
+        font-weight: 500;
+        font-size: 25px;
+        font-style: italic;
+        background-color: #C3ACD0;
+        padding: 20px;
+    }
+    td{
+        padding: 20px;
+    }
+   </style>
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/" style="font-size: 40px; font-family: fantasy; color: white; margin-left: 20px;">Drone Shipperz</a>
+          <div class="contents">
+            <a class="navbar-brand" href="details" style="font-size: 20px;color: white;font-style: italic; "> Business Analysis</a>
+            <a class="navbar-brand" href="availability" style="font-size: 20px;color: white;font-style: italic; "> Availability</a>
+            <a class="navbar-brand" href="tracking" style="font-size: 20px;color: white;margin-right: 100px;font-style: italic; "> Tracking</a>
+            <a href="login" style="text-decoration: none;"><button class="btn"> Login / Register</button></a>
+          </div>
+        </div>
+    </nav>
+    <h1 style="font-style: italic; color: #674188; font-size: 50px; margin-top: 20px; margin-left:450px; padding: 40px;"> STATISTICAL ANALYSIS </h1>
+    <table>
+        <tr style="box-shadow: none !important;">
+            <th> Algorithm </th>
+            <th> Graph Representation </th>
+            <th> Precision </th>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"><b> Support Vector Machine: </b> The goal of the SVM algorithm is to create the best line or decision boundary that can segregate n-dimensional space into classes so that we can easily put the new data point in the correct category in the future. This best decision boundary is called a hyperplane.</td>
+            <td> <img src="/static/imgs/svc.png" width="300" height="300"> </td>
+            <td> 62.84 % </td>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"> <b> Logostic Regression: </b> It is one of the most popular Machine Learning algorithms, which comes under the Supervised Learning technique. It is used for predicting the categorical dependent variable using a given set of independent variables</td>
+            <td> <img src="/static/imgs/lrl.png" width="300" height="300"> </td>
+            <td> 78.09 %  </td>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"> <b> k-Nearest Neighbors: </b> It stores all the available data and classifies a new data point based on the similarity. This means when new data appears then it can be easily classified into a well suite category by using K- NN algorithm. </td>
+            <td> <img src="/static/imgs/nnl.png" width="300" height="300"> </td>
+            <td> 70.05 % </td>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"><b> Decision Tree: </b> It is a Supervised learning technique that can be used for both classification and Regression problems, but mostly it is preferred for solving Classification problems. It is a tree-structured classifier, where internal nodes represent the features of a dataset, branches represent the decision rules and each leaf node represents the outcome.</td>
+            <td> <img src="/static/imgs/dtl.png" width="300" height="300"> </td>
+            <td> 76.05 % </td>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"> <b> Random Forest: </b> It is a popular machine learning algorithm that belongs to the supervised learning technique. It can be used for both Classification and Regression problems in ML. It is based on the concept of ensemble learning, which is a process of combining multiple classifiers to solve a complex problem and to improve the performance of the model.</td>
+            <td> <img src="/static/imgs/rfl.png" width="300" height="300"> </td>
+            <td> 78.05 %  </td>
+        </tr>
+        <tr>
+            <td style="word-wrap: break-word; width: 400px;"><b> Gradient Boosting: </b> It starts with building a primary model from available training data sets then it identifies the errors present in the base model. After identifying the error, a secondary model is built, and further, a third model is introduced in this process. In this way, this process of introducing more models is continued until we get a complete training data set by which model predicts correctly.</td>
+            <td> <img src="/static/imgs/gbl.png" width="300" height="300"> </td>
+            <td> 78.91 % </td>
+        </tr>
+    </table> <br> <br>
+    <h1 style="font-style: italic; color: #674188; font-size: 50px; margin-top: 20px; margin-left:400px; padding: 40px;"> Overall Precision: 91.22 % </h1>
+</body>
+</html>
+
+
+
+
+
+
