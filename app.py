@@ -3,8 +3,6 @@ import os
 import webbrowser
 from pymongo import MongoClient
 
-import analytic as an
-
 app=Flask(__name__)
 
 client = MongoClient('127.0.0.1', 27017)
